@@ -4,11 +4,32 @@ import Theme from "../assets/Theme/Theme";
 import TickTextField from "../common/TickTextField";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import TickButton from "../common/TickButton";
+import { useNavigation } from "@react-navigation/native";
+
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 
+
+
 const MainMenuScreen = () => {
 
+    const useNavigate = useNavigation();
+
+    const navigationToken = () => {
+        useNavigate.navigate('Token');
+    }
+    const navigationBooking = () => {
+        useNavigate.navigate('Book');
+    }
+
+    const navigationLogin = () => {
+        useNavigate.navigate('LoginScreen');
+        alert('Logged Out Successfully');
+    }
+    const navigationTimetable = () => {
+        useNavigate.navigate('Timetable');
+        
+    }
     return (
         <KeyboardAwareScrollView style={[{ height: SCREEN_HEIGHT }]}>
             <View style={[{ height: SCREEN_HEIGHT }]}>
@@ -22,7 +43,7 @@ const MainMenuScreen = () => {
                         <View style={[Theme.w90, Theme.h10, Theme.dFlexRow]}>
                             <View style={[Theme.w30, Theme.h100, Theme.bgBlue, Theme.justAlign]}>
                                 {/* schedule images ---------------------------------------------------------------------------------------------------- */}
-                                {/* <Image source={require('../assets/')}/> */}
+                                {/* <Image source={require('../../images/Ticketing.png')}/> */}
                             </View>
 
                             <View style={[Theme.w40, Theme.h100]} />
@@ -35,17 +56,17 @@ const MainMenuScreen = () => {
 
                         <View style={[Theme.w90, Theme.h4, Theme.dFlexRow]}>
                             <View style={[Theme.w30, Theme.h100, Theme.justAlign]}>
-                                <Text style={[Theme.fBlue]}>
-                                    Schedule
-                                </Text>
+                            <TickButton 
+                             onPress={() => navigationBooking()}
+                            ButtonName={"Bookings"} />
                             </View>
 
                             <View style={[Theme.w40, Theme.h100]} />
 
                             <View style={[Theme.w30, Theme.h100, Theme.justAlign]}>
-                                <Text style={[Theme.fBlue]}>
-                                    Token
-                                </Text>
+                            <TickButton 
+                             onPress={() => navigationToken()}
+                            ButtonName={"Token"} />
                             </View>
                         </View>
 
@@ -60,9 +81,9 @@ const MainMenuScreen = () => {
 
                         <View style={[Theme.w90, Theme.h4, Theme.justAlign]}>
                             <View style={[Theme.w30, Theme.h100, Theme.justAlign]}>
-                                <Text style={[Theme.fBlue]}>
-                                    Account
-                                </Text>
+                            <TickButton 
+                            onPress={() => navigationTimetable()}
+                            ButtonName={"Timetable"} />
                             </View>
                         </View>
 
@@ -84,24 +105,22 @@ const MainMenuScreen = () => {
 
                         <View style={[Theme.w90, Theme.h4, Theme.dFlexRow]}>
                             <View style={[Theme.w30, Theme.h100, Theme.justAlign]}>
-                                <Text style={[Theme.fBlue]}>
-                                    Balance
-                                </Text>
+                            <TickButton ButtonName={"Balance"} />
                             </View>
 
                             <View style={[Theme.w40, Theme.h100]} />
 
                             <View style={[Theme.w30, Theme.h100, Theme.justAlign]}>
-                                <Text style={[Theme.fBlue]}>
-                                    Reserve
-                                </Text>
+                            <TickButton ButtonName={"Reserve"} />
                             </View>
                         </View>
 
                         <View style={[Theme.h10]} />
 
                         <View style={[Theme.w50, Theme.h4]}>
-                            <TickButton ButtonName={"Logout"} />
+                            <TickButton
+                              onPress={() => navigationLogin()} 
+                            ButtonName={"Logout"} />
                         </View>
 
                     </View>

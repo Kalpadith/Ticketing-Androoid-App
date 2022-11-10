@@ -6,56 +6,56 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import TickButton from "../common/TickButton";
 import { useNavigation } from "@react-navigation/native";
 
-
 const SCREEN_HEIGHT = Dimensions.get('window').height;
-
-const LoginScreen = () => {
+const Login = () => {
 
     const [email_address, setEmail_Address] = useState();
     const [loginPassword, setLoginPassword] = useState();
+
 
     const useNavigate = useNavigation();
 
     const navigationRegister = () => {
         useNavigate.navigate('Register');
     }
-    const navigateLogin = () => {
-        useNavigate.navigate('Mainmenu');
-        alert("login success");
-    }
     
 
+    function validateForm() {
+        return email_address.length > 0 && loginPassword.length > 0;
+    }
 
-    const userLogin = () => {
+    async function handleSubmit(event) {
+        event.preventDefault();
+        const result = await axios.post('https://ticketing-server-app.herokuapp.com/users/login', {
+            email: email,
+            password: password
+        });
+        if (result.status === 200) {
 
-        const url = `https://ticketing-server-app.herokuapp.com/users/search/` + `${email_address}`;
+            // USE SWITCH CASE FOR OTHER ROLES
 
-        try {
-            fetch((url), {
-                method: 'GET',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                }
-            }).then((response) => response.json()).then((data) => {
-                const emailAddress = data[0].user_Email;
-                const password = data[0].user_password;
+            sessionStorage.setItem('user', JSON.stringify(result.data));
+            sessionStorage.setItem('email', email);
+            if (result.data.user_role === 'admin'){
+                sessionStorage.setItem('role', 'admin');
+                navigate('/admin')
+            }
+            else if (result.data.user_role === 'local'){
+                sessionStorage.setItem('role', 'local');
+                navigate('/local')
+            }
+            else if (result.data.user_role === 'foreign'){
+                sessionStorage.setItem('role', 'foreign');
+                navigate('/foreign')
+            }
+            else {
+               
+                sessionStorage.setItem('role', 'transportmanager');
+                navigate('/transportmanager')
+            }
 
-                if (email_address === emailAddress){
-                    if(loginPassword === password){
-                        if(email_address === emailAddress && loginPassword === password){
-                            useNavigate.navigate.navigateLogin('Mainmenu');
-                            alert("login success");
-                        }
-                    }else{
-                        alert('password invalid');                    }
-                }else{
-                    alert("not registered user...")
-                }
-            });
-        } catch (e) {
-            console.log('error user register...');
         }
+
     }
 
     return (
@@ -83,7 +83,7 @@ const LoginScreen = () => {
 
                         <View style={[Theme.w80, Theme.h7]}>
                             <TickButton
-                                onPress={() => navigateLogin()}
+                                onPress={() => Login()}
                                 ButtonName={"Login"}
                             />
                         </View>
@@ -102,4 +102,4 @@ const LoginScreen = () => {
     )
 }
 
-export default LoginScreen;
+export default Login;

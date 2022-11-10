@@ -22,6 +22,12 @@ const Theme = StyleSheet.create({
     dFlexRow: {
         flexDirection: "row"
     }, 
+    dFlex:{
+        alignItems: 'center',
+        width : '3%',
+        height: '3%'
+
+    },
 
     // width ----------------------------------------------
     w100: {
@@ -52,7 +58,9 @@ const Theme = StyleSheet.create({
     w30: {
         width: '30%'
     },
-
+    w5: {
+        width: '5%'
+    },
 
     // height -----------------------------------------------
     h100: {
@@ -75,6 +83,9 @@ const Theme = StyleSheet.create({
     },
     h7: {
         height: '7%'
+    },
+    h5: {
+        height: '5%'
     },
 
     h4: {
